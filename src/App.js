@@ -14,27 +14,64 @@ function App() {
 
   // UseState
   const [btnCadastrar, setBtnCadastrar] = useState(true);
-  const [produtos, setProdutos] = useState([]);
-  const [objProduto, setObjProduto] = useState(produto);
+  const [token, setToken] = useState([]);
+  const [pessoas, setPessoas] = useState([]);
+  //const [objProduto, setObjProduto] = useState(produto);
+
+  // UseState
+  //const [btnCadastrar, setBtnCadastrar] = useState(true);
+  //const [produtos, setProdutos] = useState([]);
+  //const [objProduto, setObjProduto] = useState(produto);
+
+  const urlAuthenticate = "http://localhost:8090/authenticate";
+  const urlPessoa = "http://localhost:8090/pessoa?idsPessoa=220247";
 
   // Use effect
   useEffect(()=>{
-    fetch("http://localhost:8090/listar")
+    fetch(urlAuthenticate, {
+      method: "POST",
+      body: JSON.stringify({
+        "username": "corejur",
+        "password": "oab123"
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
     .then(retorno => retorno.json())
-    .then(retorno_convertido => setProdutos(retorno_convertido));
+    .then(retorno_convertido => setToken(retorno_convertido));
   }, []);
 
+  useEffect(()=>{
+    fetch(urlPessoa, {
+      method: "GET",
+      headers: {
+        authorization: token,
+        Accept: "application/json"
+      }
+    })
+    .then(retorno => retorno.json())
+    .then(retorno_convertido => setPessoas(retorno_convertido));
+  }, []);
+
+  // Use effect
+  //useEffect(()=>{
+  //  fetch("http://localhost:8090/listar")
+  //  .then(retorno => retorno.json())
+  //  .then(retorno_convertido => setProdutos(retorno_convertido));
+  //}, []);
+
   // Obtendo os dados do formulário
-  const aoDigitar = (e) => {
+  /*const aoDigitar = (e) => {
     console.log(e.target);
-  }
+  }*/
 
   // Retorno  
   return (
     <div>
-      <p>{JSON.stringify(objProduto)}</p>
-      <Formulario botao={btnCadastrar} eventoTeclado={aoDigitar} />
-      <Tabela vetor={produtos} /> 
+      
+      <Formulario botao={btnCadastrar} />
+      <Tabela vetor={pessoas} /> 
     </div>
   );
 }
