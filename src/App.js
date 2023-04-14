@@ -26,7 +26,7 @@ function App() {
 
   // Obtendo os dados do formulário
   const aoDigitar = (e) => {
-    console.log(e.target);
+    setObjProduto({...objProduto, [e.target.name]:e.target.value});
   }
 
   // Retorno  
