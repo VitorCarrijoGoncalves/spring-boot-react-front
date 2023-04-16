@@ -25,9 +25,16 @@ function App() {
   }, []);
 
   // Limpar formulário
- // const limparFormulario = () => {
-   // setObjProduto(produto);
-  //}
+  const limparFormulario = () => {
+    setObjProduto(produto);
+    setBtnCadastrar(true);
+  }
+
+  // Selecionar Produto
+  const selecionarProduto = (indice) => {
+    setObjProduto(produtos[indice]);
+    setBtnCadastrar(false);
+  }
 
   // Obtendo os dados do formulário
   const aoDigitar = (e) => {
@@ -51,7 +58,8 @@ function App() {
         alert(retorno_convertido.mensagem);
       } else {
         setProdutos([...produtos, retorno_convertido]);
-        alert('Produto cadastrado com sucesso!')
+        alert('Produto cadastrado com sucesso!');
+        limparFormulario();
       }
 
     })
@@ -60,8 +68,8 @@ function App() {
   // Retorno  
   return (
     <div>
-      <Formulario botao={btnCadastrar} eventoTeclado={aoDigitar} cadastrar={cadastrar} />
-      <Tabela vetor={produtos} /> 
+      <Formulario botao={btnCadastrar} eventoTeclado={aoDigitar} cadastrar={cadastrar} obj={objProduto} cancelar={limparFormulario} />
+      <Tabela vetor={produtos} selecionar={selecionarProduto} /> 
     </div>
   );
 }
