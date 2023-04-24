@@ -29,13 +29,14 @@ function App() {
   // Use effect
   useEffect(()=>{
     fetch(urlAuthenticate, {
-      method: "POST",
+      method: "post",
       body: JSON.stringify({
         "username": "corejur",
         "password": "oab123"
       }),
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json",
+        "Accept": "application/json"
       }
     })
     .then(retorno => retorno.json())
@@ -44,9 +45,9 @@ function App() {
 
   useEffect(()=>{
     fetch(urlPessoa, {
-      method: "GET",
+      method: "get",
       headers: {
-        authorization: token,
+        Authorization: 'Bearer ' + token,
         Accept: "application/json"
       }
     })
