@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
 import Formulario from './Formulario';
@@ -27,22 +28,31 @@ function App() {
   const urlPessoa = "http://localhost:8090/pessoa?idsPessoa=220247";
 
   // Use effect
-  useEffect(()=>{
-    fetch(urlAuthenticate, {
-      method: "post",
-      body: JSON.stringify({
-        "username": "corejur",
-        "password": "oab123"
-      }),
-      headers: {
-        "Content-type": "application/json",
-        "Accept": "application/json"
-      }
-    })
-    .then(retorno => retorno.json())
-    .then(retorno_convertido => setToken(retorno_convertido));
-  }, []);
+  // useEffect(()=>{
+  //   fetch(urlAuthenticate, {
+  //     method: "post",
+  //     body: JSON.stringify({
+  //       "username": "corejur",
+  //       "password": "oab123"
+  //     }),
+  //     headers: {
+  //       "Content-type": "application/json",
+  //       "Accept": "application/json"
+  //     }
+  //   })
+  //   .then(retorno => retorno.json())
+  //   .then(retorno_convertido => setToken(retorno_convertido));
+  // }, []);
 
+  axios.post(urlAuthenticate, {
+      "username": "corejur",
+      "password": "oab123"
+  })
+  .then(function (response) {
+    console.log("Response data = " + response.data);
+    console.log("Response status = " + response.status);
+  });
+  
   useEffect(()=>{
     fetch(urlPessoa, {
       method: "get",
@@ -69,8 +79,7 @@ function App() {
 
   // Retorno  
   return (
-    <div>
-      
+    <div>      
       <Formulario botao={btnCadastrar} />
       <Tabela vetor={pessoas} /> 
     </div>
