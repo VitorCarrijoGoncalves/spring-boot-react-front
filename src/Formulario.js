@@ -2,7 +2,7 @@ function Formulario({botao}) {
     return(
         <form>
             <input type='text' placeholder='Nome' className="form-control" />
-            <input type='text' placeholder='Marca' className="form-control" />
+            <input type='text' placeholder='CPF' className="form-control" />
 
             {
                 botao
