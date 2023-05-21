@@ -5,47 +5,51 @@ import Tabela from './Tabela';
 
 function App() {
 
-  // Objeto produto
-  const produto = {
-    codigo: 0,
+  // Objeto pessoa
+  const pessoa = {
+    id: 0,
     nome: '',
-    marca: ''
+    cpfCNPJ: '',
+    registroConselho: ''
   }
 
   // UseState
   const [btnCadastrar, setBtnCadastrar] = useState(true);
-  const [produtos, setProdutos] = useState([]);
-  const [objProduto, setObjProduto] = useState(produto);
+  const [pessoas, setPessoas] = useState([]);
+  const [objPessoa, setObjPessoa] = useState(pessoa);
+
+  // URL
+  const urlPessoa = "http://localhost:8090/pessoa?idsPessoa=220247,94945,36182"; 
 
   // Use effect
   useEffect(()=>{
-    fetch("http://localhost:8090/listar")
+    fetch(urlPessoa)
     .then(retorno => retorno.json())
-    .then(retorno_convertido => setProdutos(retorno_convertido));
+    .then(retorno_convertido => setPessoas(retorno_convertido));
   }, []);
 
   // Limpar formulário
   const limparFormulario = () => {
-    setObjProduto(produto);
+    setObjPessoa(pessoa);
     setBtnCadastrar(true);
   }
 
-  // Selecionar Produto
-  const selecionarProduto = (indice) => {
-    setObjProduto(produtos[indice]);
+  // Selecionar Pessoa
+  const selecionarPessoa = (indice) => {
+    setObjPessoa(pessoas[indice]);
     setBtnCadastrar(false);
   }
 
   // Obtendo os dados do formulário
   const aoDigitar = (e) => {
-    setObjProduto({...objProduto, [e.target.name]:e.target.value});
+    setObjPessoa({...objPessoa, [e.target.name]:e.target.value});
   }
 
-  // Cadastrar produto
+  // Cadastrar Pessoa
   const cadastrar = () => {
-    fetch('http://localhost:8090/cadastrar', {
+    fetch('http://localhost:8090/pessoa', {
       method: 'post',
-      body: JSON.stringify(objProduto),
+      body: JSON.stringify(objPessoa),
       headers: {
         'Content-type':'application/json',
         'Accept':'application/json'
@@ -57,19 +61,18 @@ function App() {
       if (retorno_convertido.mensagem !== undefined) {
         alert(retorno_convertido.mensagem);
       } else {
-        setProdutos([...produtos, retorno_convertido]);
-        alert('Produto cadastrado com sucesso!');
+        setPessoas([...pessoas, retorno_convertido]);
+        alert('Pessoa cadastrada com sucesso!');
         limparFormulario();
       }
-
     })
   }
 
-    // Alterar produto
+    // Alterar pessoa
     const alterar = () => {
       fetch('http://localhost:8090/alterar', {
         method: 'put',
-        body: JSON.stringify(objProduto),
+        body: JSON.stringify(objPessoa),
         headers: {
           'Content-type':'application/json',
           'Accept':'application/json'
@@ -83,21 +86,21 @@ function App() {
         } else {
 
           // Mensagem
-          alert('Produto alterado com sucesso!');
+          alert('Pessoa alterada com sucesso!');
 
-          // Cópia do vetor de produtos
-          let vetorTemp = [...produtos]
+          // Cópia do vetor de pessoa
+          let vetorTemp = [...pessoas]
 
           // Índice
           let indice = vetorTemp.findIndex((p) => {
-            return p.codigo === objProduto.codigo;
+            return p.id === objPessoa.id;
           });
 
-          // Alterar produto do vetorTemp
-          vetorTemp[indice] = objProduto;
+          // Alterar pessoa do vetorTemp
+          vetorTemp[indice] = objPessoa;
 
-          // Atualizar o vetor de produtos
-          setProdutos(vetorTemp);
+          // Atualizar o vetor de pessoas
+          setPessoas(vetorTemp);
 
           // Limpar o formulário
           limparFormulario();
@@ -106,9 +109,9 @@ function App() {
       })
     }
 
-  // Remover produto
+  // Remover pessoa
   const remover = () => {
-    fetch('http://localhost:8090/remover/'+objProduto.codigo, {
+    fetch('http://localhost:8090/remover/'+objPessoa.id, {
       method: 'delete',
       headers: {
         'Content-type':'application/json',
@@ -121,19 +124,19 @@ function App() {
       // Mensagem
       alert(retorno_convertido.mensagem);
 
-      // Cópia do vetor de produtos
-      let vetorTemp = [...produtos]
+      // Cópia do vetor de pessoas
+      let vetorTemp = [...pessoas]
 
       // Índice
       let indice = vetorTemp.findIndex((p) => {
-        return p.codigo === objProduto.codigo;
+        return p.id === objPessoa.id;
       });
 
-      // Remover produto do vetorTemp
+      // Remover pessoa do vetorTemp
       vetorTemp.splice(indice, 1);
 
-      // Atualizar o vetor de produtos
-      setProdutos(vetorTemp);
+      // Atualizar o vetor de pessoas
+      setPessoas(vetorTemp);
 
       // Limpar formulário
       limparFormulario();
@@ -145,8 +148,8 @@ function App() {
   return (
     <div>
       <Formulario botao={btnCadastrar} eventoTeclado={aoDigitar} cadastrar={cadastrar} 
-      obj={objProduto} cancelar={limparFormulario} remover={remover} alterar={alterar} />
-        <Tabela vetor={produtos} selecionar={selecionarProduto} /> 
+      obj={objPessoa} cancelar={limparFormulario} remover={remover} alterar={alterar} />
+        <Tabela vetor={pessoas} selecionar={selecionarPessoa} /> 
     </div>
   );
 }
