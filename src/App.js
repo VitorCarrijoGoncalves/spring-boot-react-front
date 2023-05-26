@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Formulario from './Formulario';
-import Tabela from './Tabela';
+import Formulario from './Components/Formulario/Formulario';
+import Tabela from './Components/Table/Tabela';
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
     id: 0,
     nome: '',
     cpfCNPJ: '',
+    senha: '',
     registroConselho: ''
   }
 
@@ -47,7 +48,7 @@ function App() {
 
   // Cadastrar Pessoa
   const cadastrar = () => {
-    fetch('http://localhost:8090/pessoa', {
+    fetch('http://localhost:8090/pessoa/salvar', {
       method: 'post',
       body: JSON.stringify(objPessoa),
       headers: {
