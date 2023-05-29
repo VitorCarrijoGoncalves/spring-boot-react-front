@@ -11,7 +11,8 @@ function App() {
     nome: '',
     cpfCNPJ: '',
     senha: '',
-    registroConselho: ''
+    registroConselho: '',
+    nomeSocial: ''
   }
 
   // UseState
@@ -71,7 +72,7 @@ function App() {
 
     // Alterar pessoa
     const alterar = () => {
-      fetch('http://localhost:8090/alterar', {
+      fetch('http://localhost:8090/pessoa/alterar', {
         method: 'put',
         body: JSON.stringify(objPessoa),
         headers: {
@@ -112,7 +113,7 @@ function App() {
 
   // Remover pessoa
   const remover = () => {
-    fetch('http://localhost:8090/remover/'+objPessoa.id, {
+    fetch('http://localhost:8090/pessoa/remover/'+objPessoa.id, {
       method: 'delete',
       headers: {
         'Content-type':'application/json',

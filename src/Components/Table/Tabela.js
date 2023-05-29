@@ -7,7 +7,8 @@ function Tabela({vetor, selecionar}) {
                     <th>#</th>
                     <th>Nome</th>
                     <th>CPF</th>
-                    <th>RegistroConselho</th>
+                    <th>Registro Conselho</th>
+                    <th>Nome Social</th>
                     <th>Selecionar</th>
                 </tr>
             </thead>
@@ -19,6 +20,7 @@ function Tabela({vetor, selecionar}) {
                         <td>{obj.nome}</td>
                         <td>{obj.cpfCNPJ}</td>
                         <td>{obj.registroConselho}</td>
+                        <td>{obj.nomeSocial}</td>
                         <td><button onClick={() => {selecionar(indice)}} 
                         className="btn btn-success">Selecionar</button></td>
                     </tr>
